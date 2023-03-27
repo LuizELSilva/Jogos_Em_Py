@@ -15,15 +15,18 @@ Jogo da forca
 
 '''
 
+import jogos
 
 def Jogo_forca():
     #_*_ coding: utf-8 _*_
     from time import sleep
     from random import randrange
-    acertar = False
-    enforcado = False
-    acertos = tema = erros = palavras =  0
+    status = False #enforcado = acertar = False
+
+    palavras = verificador = tema = 0 # acertos = erros = 0
     chutePal = '0'
+    # verificador = 0
+
     def mensagem_inicial():
         print('~'*68)
         print('{: ^77}'.format('\033[1;032mJogo da Forca\033[m'))
@@ -158,45 +161,72 @@ def Jogo_forca():
         sleep(1)
         return acertar
 
+    while (not status):
+        acertos = erros = tema = 0
+        acertar = enforcado = False
 
-    mensagem_inicial()
-    sleep(2)
-    tema = escolha_tema(tema)
-    palavras = arquivo_do_tema(tema,palavras)
+        #verificador = 1
+        mensagem_inicial()
+        sleep(2)
+        tema = escolha_tema(tema)
+        palavras = arquivo_do_tema(tema,palavras)
 
-    numero = randrange(0, len(palavras))
-    fruta = palavras[numero].upper()
-    print(fruta)
-    tamanho = ['_' for letras in fruta]  # o que vai ser inserido está como primeiro elemento
-    #print(palavras)
-    while (not acertar and not enforcado):
+        numero = randrange(0, len(palavras))
+        fruta = palavras[numero].upper()
+        print(fruta) #fruta no jogo
+        print()
+        print(f'Quantidade de letras: {len(fruta)}')
+        tamanho = ['_' for letras in fruta]  # o que vai ser inserido está como primeiro elemento
+        # print(fruta) # Mostra palavra escolhida
+        while (not acertar and not enforcado):
 
-        chutePal = '0'
-        print(tamanho)
-        letra = str(input('Digite uma letra: ')).upper().strip()[0]
-        if (letra in fruta): # verifica se tem letras digitadas corretas
-            for contador in range(0,len(fruta)):
-                if fruta[contador] == letra:
-                    tamanho[contador] = letra
-        else:
-            erros = contador_de_erros(erros)
-
-        print(tamanho)
-        if erros < 7:
-            while chutePal != 'S' and chutePal != 'N':
-                chutePal = str(input('Quer fazer seu palpite? [S/N]')).upper().strip()
-        if chutePal == 'S':
-            palpite = str(input('Digite seu palpite: ')).upper().strip()
-            if palpite == fruta.upper():
-                for contador in range (0,len(fruta)):
-                    tamanho[contador] = fruta
+            chutePal = '0'
+            print(tamanho)
+            print()
+            letra = str(input('Digite uma letra: ')).upper().strip()[0]
+            if (letra in fruta): # verifica se tem letras digitadas corretas
+                for contador in range(0,len(fruta)):
+                    if fruta[contador] == letra:
+                        tamanho[contador] = letra
             else:
                 erros = contador_de_erros(erros)
 
-        if (erros == 7):
-           enforcado = mensagem_enforcado(enforcado)
+            print(tamanho)
+            if erros < 7:
+                while (chutePal != 'S' and chutePal != 'N'):
+                    print()
+                    chutePal = str(input('Quer fazer seu palpite? [S/N] ')).upper().strip()
+            if chutePal == 'S':
+                print()
+                palpite = str(input('Digite seu palpite: ')).upper().strip()
+                if (palpite == fruta.upper()):
+                    for contador in range (0,len(fruta)):
+                        tamanho[contador] = fruta
+                else:
+                    erros = contador_de_erros(erros)
 
-        if ('_' not in tamanho):
-            acertar = mensagem_ganhou(acertar)
+            if (erros == 7):
+                enforcado = mensagem_enforcado(enforcado)
+
+            if ('_' not in tamanho):
+                acertar = mensagem_ganhou(acertar)
+
+        print('Digite sua escolha: \nJogar novamente: \033[1;032m1\033[m\nvoltar ao menu: \033[1;031m2\033[m\nEncerrar o programa: \033[1;034m3\033[m')
+        while  (verificador < 1 or verificador > 3):
+            verificador = int(input('Escolha: '))
+        if (verificador == 1):
+            status = False
+            verificador = 0
+            print()
+            sleep(1)
+        elif (verificador == 2):
+            print()
+            sleep(1)
+            jogos.escolha_de_Jogo()  # puxa arquivo/ função
+        elif (verificador == 3):
+            print('Encerrando o programa...')
+            sleep(2)
+            status = True
+
 if (__name__ == '__main__'):
     Jogo_forca()

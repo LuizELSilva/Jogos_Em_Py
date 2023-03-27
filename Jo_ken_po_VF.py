@@ -20,10 +20,8 @@ def Jogo_jokenpo():
 
     from time import sleep
     from random import randrange
-    contadorF = 0
-    contadorI = 1
+    import jogos
 
-    Ljoken = ['pedra','papel','tesoura']
 
     def mensagem_inicial():
         print('~'*50)
@@ -100,42 +98,69 @@ def Jogo_jokenpo():
                 print('Ah! que pena... Você \033[1;31mperdeu\033[m...')
                 sleep(1)
         return contadorI
+    status = False
 
-    mensagem_inicial()
-    contadorF = dificuldade_selecao(contadorF)
+    while (not status):
+        contadorF = verificador = 0
+        contadorI = 1
 
-    while contadorI <= contadorF:
+        Ljoken = ['pedra','papel','tesoura']
 
-        maquina = randrange(1, 4)
-        #print(maquina)
-        venceu = False
-        perdeu = False
-        empate = False
-        escolha = 0
-        mensagem_de_jogo_dois()
 
-        print(f'Tentativa {contadorI} de {contadorF}')
+        mensagem_inicial()
+        contadorF = dificuldade_selecao(contadorF)
 
-        while (escolha < 1 or escolha > 3):
-            escolha = int(input('Escolha: '))
+        while contadorI <= contadorF:
 
-        empate = escolha == maquina # retornar True
+            maquina = randrange(1, 4)
+            #print(maquina)
+            venceu = False
+            perdeu = False
+            empate = False
+            escolha = 0
+            mensagem_de_jogo_dois()
 
-        venceu = verificacao_vitoria(escolha,maquina,venceu)
+            print(f'Tentativa {contadorI} de {contadorF}')
 
-        perdeu = verificacao_derrota(escolha,maquina,perdeu)
+            while (escolha < 1 or escolha > 3):
+                escolha = int(input('Escolha: '))
 
-        print('\033[1;32mJo\033[m')
-        print()
+            empate = escolha == maquina # retornar True
+
+            venceu = verificacao_vitoria(escolha,maquina,venceu)
+
+            perdeu = verificacao_derrota(escolha,maquina,perdeu)
+
+            print('\033[1;32mJo\033[m')
+            print()
+            sleep(1)
+            print('\033[1;32mKen\033[m')
+            print()
+            sleep(1)
+            print('\033[1;32mPo!\033[m')
+            print()
+            sleep(1)
+
+            contadorI = mensagem_de_jogo_final(venceu,empate,perdeu,Ljoken,contadorI,contadorF,escolha,maquina)
         sleep(1)
-        print('\033[1;32mKen\033[m')
         print()
-        sleep(1)
-        print('\033[1;32mPo!\033[m')
-        print()
-        sleep(1)
 
-        contadorI = mensagem_de_jogo_final(venceu,empate,perdeu,Ljoken,contadorI,contadorF,escolha,maquina)
+        print('Digite sua escolha: \nJogar novamente: \033[1;032m1\033[m\nvoltar ao menu: \033[1;031m2\033[m\nEncerrar o programa: \033[1;034m3\033[m')
+        while  (verificador < 1 or verificador > 3):
+            verificador = int(input('Escolha: '))
+        if (verificador == 1):
+            status = False
+            verificador = 0
+            print()
+            sleep(1)
+        elif (verificador == 2):
+            print()
+            sleep(1)
+            jogos.escolha_de_Jogo()  # puxa arquivo/ função
+        elif (verificador == 3):
+            print('Encerrando o programa...')
+            sleep(2)
+            status = True
 
 
 if (__name__ == '__main__'):

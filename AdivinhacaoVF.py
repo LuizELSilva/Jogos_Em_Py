@@ -13,13 +13,12 @@ Adicionar elementos tipo Troféu e uma imagem para representar derrota.
 Colocar código dividido em funções
 Colocar cores
 '''
-
+import jogos
+from time import sleep
 def Jogo_Adivinhacao():
     from random import randrange
-    maquina = randrange(0,100)
-    escolha = tentativa = 0
-    pontuacao = 1000
-    #print(maquina)
+    status = False
+
 
     def mensagem_inicial():
         print('~'*50)
@@ -106,17 +105,42 @@ def Jogo_Adivinhacao():
                 elif (chute < maquina and tentativa > 0):
                     print('Tente um número a cima!!')
                     print('')
+    while (not status):
 
-    mensagem_inicial()
+        maquina = randrange(0, 100)
+        escolha = tentativa = verificador = 0
+        pontuacao = 1000
+        mensagem_inicial()
+        print(maquina)
 
-    while escolha < 1 or escolha > 4:
-        escolha = int(input('Escolha: '))
-    if (escolha == 1):
-        jogo_modo_facil(pontuacao)
-    elif (escolha == 2):
-        jogo_modo_medio(pontuacao)
-    elif(escolha == 3):
-        jogo_modo_dificil(pontuacao)
+        while (escolha < 1 or escolha > 4):
+            escolha = int(input('Escolha: '))
+        if (escolha == 1):
+            jogo_modo_facil(pontuacao)
+        elif (escolha == 2):
+            jogo_modo_medio(pontuacao)
+        elif(escolha == 3):
+            jogo_modo_dificil(pontuacao)
+        sleep(1)
+        print()
+
+        print('Digite sua escolha: \nJogar novamente: \033[1;032m1\033[m\nvoltar ao menu: \033[1;031m2\033[m\nEncerrar o programa: \033[1;034m3\033[m')
+        while  (verificador < 1 or verificador > 3):
+            verificador = int(input('Escolha: '))
+        if (verificador == 1):
+            status = False
+            verificador = 0
+            print()
+            sleep(1)
+        elif (verificador == 2):
+            print()
+            sleep(1)
+            jogos.escolha_de_Jogo()  # puxa arquivo/ função
+        elif (verificador == 3):
+            print('Encerrando o programa...')
+            sleep(2)
+            status = True
+
 
 if (__name__ == '__main__'):
     Jogo_Adivinhacao()

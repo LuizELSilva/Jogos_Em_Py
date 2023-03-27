@@ -15,8 +15,7 @@
 def jogo_velha ():
     from time import sleep
     from random import randint
-    escolha = vencedor = Q_escolhas = jogadores = escolha_pc = 0
-    jVelha = ['_' for c in range(0, 9)] # criando lista
+    import jogos
 
     def J_tabuleiro(jVelha): # criando tabuleiro em função
 
@@ -189,56 +188,83 @@ def jogo_velha ():
                 sleep(1)
                 print('Empate!!!')
                 sleep(1)
+    status = False
 
+    while (not status):
 
-    jogadores = mensagem_inicial(jogadores) # Retorno em função de escolha de jogadores
+        escolha = vencedor = Q_escolhas = jogadores = escolha_pc = verificador = 0
+        jVelha = ['_' for c in range(0, 9)] # criando lista
 
-    print()
-    print('O stauts atual do grid é:\n')
-
-    J_tabuleiro(jVelha)
-    while True:
-
-        escolha = jogador_1(escolha)
-        jVelha[escolha - 1] = 'X'
-        Q_escolhas += 1
-
-        vencedor = verifica_vencedor(jVelha,'X')
-
-        if vencedor != 0:
-            break
-        elif Q_escolhas == 9:
-            break
+        jogadores = mensagem_inicial(jogadores) # Retorno em função de escolha de jogadores
 
         print()
         print('O stauts atual do grid é:\n')
+
         J_tabuleiro(jVelha)
+        while True:
 
-        if jogadores == 1:
-            escolha_pc = jogada_maquina(escolha_pc)
-            jVelha[escolha_pc - 1] = 'O'
+            escolha = jogador_1(escolha)
+            jVelha[escolha - 1] = 'X'
             Q_escolhas += 1
-            print('Jogada da máquina:\n')
 
-        elif jogadores == 2:
-            escolha = jogador_2(escolha)
-            jVelha[escolha - 1] = 'O'
-            Q_escolhas += 1
+            vencedor = verifica_vencedor(jVelha,'X')
+
+            if vencedor != 0:
+                break
+            elif Q_escolhas == 9:
+                break
+
+            print()
             print('O stauts atual do grid é:\n')
+            J_tabuleiro(jVelha)
 
-        vencedor = verifica_vencedor(jVelha,'O')
+            if jogadores == 1:
+                escolha_pc = jogada_maquina(escolha_pc)
+                jVelha[escolha_pc - 1] = 'O'
+                Q_escolhas += 1
+                print('Jogada da máquina:\n')
 
-        if vencedor != 0:
-            break
-        elif Q_escolhas == 9:
-            break
+            elif jogadores == 2:
+                escolha = jogador_2(escolha)
+                jVelha[escolha - 1] = 'O'
+                Q_escolhas += 1
+                print('O stauts atual do grid é:\n')
 
+            vencedor = verifica_vencedor(jVelha,'O')
+
+            if vencedor != 0:
+                break
+            elif Q_escolhas == 9:
+                break
+
+            J_tabuleiro(jVelha)
+
+        mensagem_fim_do_jogo(jogadores,vencedor)
+        print()
+        print('Grid Final: ')
         J_tabuleiro(jVelha)
 
-    mensagem_fim_do_jogo(jogadores,vencedor)
-    print()
-    print('Grid Final: ')
-    J_tabuleiro(jVelha)
+        sleep(1)
+        print()
+
+        print('Digite sua escolha: \nJogar novamente: \033[1;032m1\033[m\nvoltar ao menu: \033[1;031m2\033[m\nEncerrar o programa: \033[1;034m3\033[m')
+        while  (verificador < 1 or verificador > 3):
+            verificador = int(input('Escolha: '))
+        if (verificador == 1):
+            status = False
+            verificador = 0
+            print()
+            sleep(1)
+        elif (verificador == 2):
+            print()
+            sleep(1)
+            jogos.escolha_de_Jogo()  # puxa arquivo/ função
+        elif (verificador == 3):
+            print('Encerrando o programa...')
+            sleep(2)
+            status = True
+
+
 if (__name__ == "__main__"):
     jogo_velha()
 
