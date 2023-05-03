@@ -54,11 +54,11 @@ def Jogo_forca():
     def arquivo_do_tema(tema,palavras):
         print('~' * 68)
         if (tema == 1):
-            with open('palavrasFrutas.txt') as arquivo:
+            with open('palavrasFrutas.txt', 'r', encoding='utf-8') as arquivo:
                 palavras = [linha.strip() for linha in arquivo]
             arquivo.close()
         elif (tema == 2):
-            with open('palavrasObjetos.txt') as arquivo:
+            with open('palavrasObjetos.txt', 'r', encoding='utf-8') as arquivo:
                 palavras = [linha.strip() for linha in arquivo]
             arquivo.close()
         return palavras
